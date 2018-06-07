@@ -1,0 +1,1 @@
+json.authorization_token @user.authorization_token

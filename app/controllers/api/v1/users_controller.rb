@@ -13,6 +13,19 @@ module Api
         end
       end
 
+      def signin
+        if !params[:user][:email].nil? && !params[:user][:password].nil?
+          @user = User.find_by(email: params[:user][:email])
+          if @user.password_hash == Digest::MD5.hexdigest(params[:user][:password])
+            render status: :ok
+          else
+            render status: :unprocessable_entity
+          end
+        else
+          render status: :bad_request
+        end
+      end
+
       private
 
       def generate_authorization_token
