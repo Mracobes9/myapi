@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       post 'users/signin' => 'users#signin'
       resources :users
+      resources :questions
       resources :answers
     end
   end

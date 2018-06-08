@@ -2,8 +2,8 @@
 
 one:
   question_id: 1
-  answer_id: 1
+  category_id: 1
 
 two:
   question_id: 1
-  answer_id: 1
+  category_id: 1
