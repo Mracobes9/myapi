@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       end
       resources :questions
       resources :answers
+      resources :category
     end
   end
 end
