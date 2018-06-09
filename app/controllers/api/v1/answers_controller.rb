@@ -3,9 +3,9 @@ module Api
         class AnswersController < ApplicationController
             def create
                 question_id = params[:answer][:question_id]
-                user = User.find_by(authorization_token: params[:answer][:authorization_token])
+                user = User.find_by(authorization_token: params[:authorization_token])
                 answer = Answer.new(text: params[:answer][:text], user_id: user.id, question_id: question_id)
-                if answer.save
+                if Question.find(question_id).isopen? && answer.save
                     render status: :created
                 else
                     render status: :unprocessable_entity
@@ -14,7 +14,7 @@ module Api
 
             def update
                 answer_id = params[:id]
-                user = User.find_by(authorization_token: params[:answer][:authorization_token])
+                user = User.find_by(authorization_token: params[:authorization_token])
                 text  = params[:answer][:text]
 
                 answer = Answer.find(answer_id)

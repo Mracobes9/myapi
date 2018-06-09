@@ -2,7 +2,7 @@ module Api
     module V1
         class QuestionsController < ApplicationController
             def create
-                user = User.find_by(authorization_token: params[:question][:authorization_token])
+                user = User.find_by(authorization_token: params[:authorization_token])
                 title = params[:question][:title]
                 desc = params[:question][:desc]
                 question = Question.new(user_id:user.id, title: title, desc: desc)
@@ -19,7 +19,7 @@ module Api
                 question = Question.find(params[:id])
                 user = User.find_by(authorization_token:params[:authorization_token])
 
-                if question.user_id == user.id && question.update_attributes(question_params)
+                if question.user_id == user.id && question.isopen? && question.update_attributes(question_params)
                     question.categories = Category.where({id: params[:question][:categories_ids]})
                     render status: :ok
                 else
@@ -41,7 +41,7 @@ module Api
             private
 
             def question_params
-                params.require(:question).permit(:categories_ids, :title, :desc)
+                params.require(:question).permit(:categories_ids, :title, :desc, :isopen)
             end
         end
     end
