@@ -26,6 +26,18 @@ module Api
         end
       end
 
+      def show
+        @user = User.find(params[:id])
+      end
+
+      def answers
+        @answers = User.find(params[:id]).answers
+      end
+
+      def questions
+        @questions = User.find(params[:id]).questions
+      end
+
       private
 
       def generate_authorization_token

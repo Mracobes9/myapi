@@ -3,7 +3,12 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       post 'users/signin' => 'users#signin'
-      resources :users
+      resources :users do
+        member do
+          get 'questions'
+          get 'answers'
+        end
+      end
       resources :questions
       resources :answers
     end
