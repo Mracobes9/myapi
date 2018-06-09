@@ -25,6 +25,17 @@ module Api
                     render status: :unprocessable_entity
                 end
             end
+
+            def destroy
+                user = User.find_by(params[:authorization_token])
+                answer = Answer.find(params[:id])
+
+                if answer.user_id == user.id && answer.destroy
+                    render status: :ok
+                else
+                    render status: :unprocessable_entity
+                end
+            end
         end
     end
 end
