@@ -11,7 +11,11 @@ Rails.application.routes.draw do
       end
       resources :questions
       resources :answers
-      resources :category
+      resources :category do
+        member do
+          get 'questions'
+        end
+      end
     end
   end
 end
