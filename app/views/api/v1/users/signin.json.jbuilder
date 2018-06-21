@@ -1,1 +1,1 @@
-json.authorization_token @user.authorization_token
+json.authorization_token @user.tokens.find_by(user_agent: request.user_agent).token

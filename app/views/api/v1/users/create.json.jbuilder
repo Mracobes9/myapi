@@ -1,2 +1,2 @@
 json.email @user.email
-json.token @user.token.first
+json.token = @user.tokens.first.token

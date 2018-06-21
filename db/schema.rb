@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 2018_06_21_091615) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "user_agent"
-    t.index ["user_id"], name: "index_tokens_on_user_id", unique: true
+    t.index ["token"], name: "index_tokens_on_token", unique: true
   end
 
   create_table "users", force: :cascade do |t|
