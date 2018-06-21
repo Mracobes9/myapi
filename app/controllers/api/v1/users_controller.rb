@@ -5,7 +5,7 @@ module Api
 
       def create
         password = Digest::MD5.hexdigest(params[:user][:password])
-        @user = User.new(email: params[:user][:email], password_hash: password)
+        @user = User.new(email: params[:user][:email].downcase, password_hash: password)
         @user.tokens.new(token: generate_authorization_token, user_agent: request.user_agent)
         if @user.save
           render status: :created
