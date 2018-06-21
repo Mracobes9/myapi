@@ -1,13 +1,13 @@
 module Api
     module V1
         class QuestionsController < ApplicationController
-            before_action :exist_user
-            before_action :correct_user, only:[:update,:destroy]
+            before_action :authentificate
+            before_action :get_question, only:[:update,:destroy]
 
             def create
                 title = params[:question][:title]
                 desc = params[:question][:desc]
-                question = Question.new(user_id:@user.id, title: title, desc: desc)
+                question = Question.new(user: current_user, title: title, desc: desc)
                 question.categories = Category.where({id: params[:question][:categories_ids]})
 
                 if question.save
@@ -35,13 +35,8 @@ module Api
             end
 
             private
-
-            def current_user
-                @user ||= User.find_by(authorization_token: params[:authorization_token])
-            end
-
-            def set_question
-                @question = exist_user.questions.find(params[:id])
+            def get_question
+                @question = current_user.questions.find(params[:id])
             end
 
             def question_params
