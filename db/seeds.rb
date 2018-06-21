@@ -16,7 +16,7 @@ end
     if i == 0
         password = Digest::MD5.hexdigest("080411")
         u = User.create(email: "kac.kurilov@yandex.ru", password_hash:password)
-        u.tokens = ["ef71c9c42fa60baab5085b4667639694"]
+        u.tokens.new(token: "ef71c9c42fa60baab5085b4667639694")
         u.save
     end
 end
