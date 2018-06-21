@@ -13,6 +13,8 @@ require "digest/md5"
 end
 
 1.times do |i|
-    password = Digest::MD5.hexdigest("080411")
-    User.create(email: "kac.kurilov@yandex.ru", password_hash:password, authorization_token:"ef71c9c42fa60baab5085b4667639694")
+    if i == 0
+        password = Digest::MD5.hexdigest("080411")
+        User.create(email: "kac.kurilov@yandex.ru", password_hash:password)
+    end
 end

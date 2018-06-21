@@ -17,7 +17,8 @@ module Api
         if !params[:user][:email].nil? && !params[:user][:password].nil?
           @user = User.find_by(email: params[:user][:email])
           if @user.password_hash == Digest::MD5.hexdigest(params[:user][:password])
-            @user = 
+            @user.authorization_token = generate_authorization_token
+            @user.save
             render status: :ok
           else
             render status: :unprocessable_entity

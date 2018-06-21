@@ -1,11 +1,13 @@
 module Api
     module V1
         class QuestionsController < ApplicationController
+            before_action :exist_user
+            before_action :correct_user, only:[:update,:destroy]
+
             def create
-                user = User.find_by(authorization_token: params[:authorization_token])
                 title = params[:question][:title]
                 desc = params[:question][:desc]
-                question = Question.new(user_id:user.id, title: title, desc: desc)
+                question = Question.new(user_id:@user.id, title: title, desc: desc)
                 question.categories = Category.where({id: params[:question][:categories_ids]})
 
                 if question.save
@@ -16,11 +18,8 @@ module Api
             end
 
             def update
-                question = Question.find(params[:id])
-                user = User.find_by(authorization_token:params[:authorization_token])
-
-                if question.user_id == user.id && question.isopen? && question.update_attributes(question_params)
-                    question.categories = Category.where({id: params[:question][:categories_ids]})
+                if @question.isopen? && @question.update_attributes(question_params)
+                    @question.categories = Category.where({id: params[:question][:categories_ids]})
                     render status: :ok
                 else
                     render status: :unprocessable_entity
@@ -28,10 +27,7 @@ module Api
             end
 
             def destroy
-                user = User.find_by(authorization_token:params[:authorization_token])
-                question = Question.find(params[:id])
-
-                if question.user_id == user.id && question.destroy
+                if @question.destroy
                     render status: :ok
                 else
                     render status: :unprocessable_entity
@@ -39,6 +35,14 @@ module Api
             end
 
             private
+
+            def current_user
+                @user ||= User.find_by(authorization_token: params[:authorization_token])
+            end
+
+            def set_question
+                @question = exist_user.questions.find(params[:id])
+            end
 
             def question_params
                 params.require(:question).permit(:categories_ids, :title, :desc, :isopen)

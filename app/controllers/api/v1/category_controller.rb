@@ -1,6 +1,11 @@
 module Api
     module V1
         class CategoryController < ApplicationController
+
+            def show
+                @category = Category.find(params[:id])
+            end
+
             def index
                 @categories = Category.all
             end

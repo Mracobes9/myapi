@@ -3,15 +3,15 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       post 'users/signin' => 'users#signin'
-      resources :users do
+      resources :users, only:[:create,:show] do
         member do
           get 'questions'
           get 'answers'
         end
       end
-      resources :questions
-      resources :answers
-      resources :category do
+      resources :questions, only: [:create,:update,:destroy]
+      resources :answers, only: [:create,:update,:destroy]
+      resources :category, only:[:show,:index] do
         member do
           get 'questions'
         end
