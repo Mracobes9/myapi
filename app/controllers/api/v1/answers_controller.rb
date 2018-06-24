@@ -5,21 +5,25 @@ module Api
             before_action :get_answer, only:[:update, :destroy]
 
             def create
-                question = Question.find_by(params[:answer][:question_id])
+                question = Question.find(params[:answer][:question_id])
                 @answer = Answer.new(text: params[:answer][:text], user: current_user, question: question)
                 
                 if question.isopen? && @answer.save
                     render status: :created
                 else
+                    @answer.valid?
                     render status: :unprocessable_entity
                 end
             end
 
             def update
                 text  = params[:answer][:text]
-                if @answer.update_attributes(text: text)
+                best = params[:answer][:best].nil? ? false : params[:answer][:best]
+                if @answer.update_attributes(text: text, best: best)
+                    @answer.question.update_attributes(isopen: false)
                     render status: :ok
                 else
+                    @answer.valid?
                     render status: :unprocessable_entity
                 end
             end
@@ -28,6 +32,7 @@ module Api
                 if @answer.destroy
                     render status: :ok
                 else
+                    @answer.valid?
                     render status: :unprocessable_entity
                 end
             end

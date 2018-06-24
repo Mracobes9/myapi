@@ -12,6 +12,7 @@ module Api
                 if @question.save
                     render status: :created
                 else
+                    @answer.valid?
                     render status: :unprocessable_entity
                 end
             end
@@ -21,6 +22,7 @@ module Api
                     @question.categories = Category.where({id: params[:question][:categories_ids]})
                     render status: :ok
                 else
+                    @answer.valid?
                     render status: :unprocessable_entity
                 end
             end
@@ -29,6 +31,7 @@ module Api
                 if @question.destroy
                     render status: :ok
                 else
+                    @answer.valid?
                     render status: :unprocessable_entity
                 end
             end

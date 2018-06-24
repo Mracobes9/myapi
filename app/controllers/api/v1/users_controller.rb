@@ -11,6 +11,7 @@ module Api
         if @user.save
           render status: :created
         else
+          @answer.valid?
           render status: :unprocessable_entity
         end
       end
