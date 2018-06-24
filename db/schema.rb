@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2018_06_23_210708) do
     t.integer "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["question_id", "category_id"], name: "index_question_category_links_on_question_id_and_category_id", unique: true
   end
 
   create_table "questions", force: :cascade do |t|

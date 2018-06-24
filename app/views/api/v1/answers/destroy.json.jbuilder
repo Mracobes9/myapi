@@ -1,0 +1,1 @@
+json.array! @answer.errors unless @answer.nil?

@@ -6,8 +6,9 @@ module Api
 
             def create
                 question = Question.find_by(params[:answer][:question_id])
-                answer = Answer.new(text: params[:answer][:text], user: current_user, question: question)
-                if question.isopen? && answer.save
+                @answer = Answer.new(text: params[:answer][:text], user: current_user, question: question)
+                
+                if question.isopen? && @answer.save
                     render status: :created
                 else
                     render status: :unprocessable_entity

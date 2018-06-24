@@ -4,8 +4,9 @@ module Api
     class UsersController < ApplicationController
 
       def create
-        password = Digest::MD5.hexdigest(params[:user][:password])
-        @user = User.new(email: params[:user][:email].downcase, password_hash: password)
+        password = Digest::MD5.hexdigest(params[:user][:password]) if !params[:user][:password].nil?
+        email = params[:user][:email] if !params[:user][:email].nil?
+        @user = User.new(email: params[:user][:email], password_hash: password)
         @user.tokens.new(token: generate_authorization_token, user_agent: request.user_agent)
         if @user.save
           render status: :created
@@ -25,6 +26,10 @@ module Api
             render status: :unprocessable_entity
           end
         else
+          @user = User.new
+          @user.email = params[:user][:email] if !params[:user][:email].nil?
+          @user.email = params[:user][:password] if !params[:user][:password].nil?
+          @user.valid?
           render status: :bad_request
         end
       end

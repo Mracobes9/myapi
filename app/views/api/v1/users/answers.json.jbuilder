@@ -4,3 +4,4 @@ json.array! @answers do |answer|
     json.best answer.best
     json.question_id answer.question_id
 end
+json.array! @answer.errors

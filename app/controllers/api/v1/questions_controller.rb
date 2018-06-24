@@ -7,10 +7,9 @@ module Api
             def create
                 title = params[:question][:title]
                 desc = params[:question][:desc]
-                question = Question.new(user: current_user, title: title, desc: desc)
-                question.categories = Category.where({id: params[:question][:categories_ids]})
-
-                if question.save
+                @question = Question.new(user: current_user, title: title, desc: desc)
+                @question.categories = Category.where({id: params[:question][:categories_ids]})
+                if @question.save
                     render status: :created
                 else
                     render status: :unprocessable_entity
