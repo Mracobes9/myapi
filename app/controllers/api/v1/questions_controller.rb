@@ -22,7 +22,7 @@ module Api
                     @question.categories = Category.where({id: params[:question][:categories_ids]})
                     render status: :ok
                 else
-                    @answer.valid?
+                    @question.valid?
                     render status: :unprocessable_entity
                 end
             end

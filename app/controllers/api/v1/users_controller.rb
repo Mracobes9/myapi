@@ -6,7 +6,7 @@ module Api
       def create
         password = Digest::MD5.hexdigest(params[:user][:password]) if !params[:user][:password].nil?
         email = params[:user][:email] if !params[:user][:email].nil?
-        @user = User.new(email: params[:user][:email], password_hash: password)
+        @user = User.new(email: email.downcase, password_hash: password)
         @user.tokens.new(token: generate_authorization_token, user_agent: request.user_agent)
         if @user.save
           render status: :created
@@ -19,11 +19,15 @@ module Api
       def signin
         if !params[:user][:email].nil? && !params[:user][:password].nil?
           @user = User.find_by(email: params[:user][:email])
-          if @user.password_hash == Digest::MD5.hexdigest(params[:user][:password])
+          if !@user.nil? && @user.password_hash == Digest::MD5.hexdigest(params[:user][:password])
             update_token
             @user.save
             render status: :ok
           else
+            @user = User.new
+            @user.email = params[:user][:email] if !params[:user][:email].nil?
+            @user.email = params[:user][:password] if !params[:user][:password].nil?
+            @user.valid?
             render status: :unprocessable_entity
           end
         else
@@ -33,6 +37,8 @@ module Api
           @user.valid?
           render status: :bad_request
         end
+
+        
       end
 
       def show
