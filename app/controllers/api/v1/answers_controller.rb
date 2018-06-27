@@ -1,7 +1,7 @@
 module Api
     module V1
         class AnswersController < ApplicationController
-            before_action :authentificate, only:[:create, :update, :destroy]
+            before_action :authenticate_user!
             before_action :get_answer, only:[:update, :destroy]
 
             def create

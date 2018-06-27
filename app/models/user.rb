@@ -1,9 +1,7 @@
-class User < ApplicationRecord
-    has_many :answers
-    has_many :questions
-    has_many :tokens
-
-    validates :email, uniqueness: {message: "Данный email уже использован"}, presence:{message:"Параметр email не заполнен"}
-    validates :password_hash, presence: {message: "Параметр password не заполнен"} 
-
+class User < ActiveRecord::Base
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable
+        # :recoverable, :rememberable, :trackable, :validatable
+  include DeviseTokenAuth::Concerns::User
 end

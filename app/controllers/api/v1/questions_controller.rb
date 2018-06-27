@@ -1,7 +1,7 @@
 module Api
     module V1
         class QuestionsController < ApplicationController
-            before_action :authentificate
+            before_action :authenticate_user!
             before_action :get_question, only:[:update,:destroy]
 
             def create
