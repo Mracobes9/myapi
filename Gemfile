@@ -10,6 +10,7 @@ gem 'sqlite3'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 gem 'jbuilder'
+gem 'i18n'
 gem 'devise_token_auth'
 gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

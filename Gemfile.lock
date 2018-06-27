@@ -165,6 +165,7 @@ DEPENDENCIES
   byebug
   devise_token_auth
   faker!
+  i18n
   jbuilder
   listen (>= 3.0.5, < 3.2)
   puma (~> 3.11)
